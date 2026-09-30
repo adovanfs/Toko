@@ -1,563 +1,324 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AURA.PICK — Katalog Produk Shopee Pilihan</title>
-<meta name="description" content="Kurasi produk Shopee terbaik: diskon, rating tinggi, kualitas terjamin." />
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
-        colors: {
-          brand: {
-            50:'#fffbeb',100:'#fef3c7',200:'#fde68a',300:'#fcd34d',
-            400:'#fbbf24',500:'#f59e0b',600:'#d97706',700:'#b45309',
-          }
-        },
-        keyframes: {
-          fadeUp: { '0%':{opacity:0,transform:'translateY(12px)'}, '100%':{opacity:1,transform:'translateY(0)'} },
-          shimmer: { '100%': { transform: 'translateX(100%)' } },
-        },
-        animation: {
-          fadeUp: 'fadeUp .5s ease-out both',
-          shimmer: 'shimmer 1.5s infinite',
-        }
-      }
-    }
-  }
-</script>
-<script src="https://unpkg.com/lucide@latest"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>ADOVAN — Rekomendasi Shopee</title>
+<meta name="description" content="Kurasi produk Shopee pilihan dengan harga promo terbaik." />
+<meta name="theme-color" content="#0a0a0a" />
 
 <style>
-  :root {
-    --bg: #fafaf9;
-    --surface: #ffffff;
-    --surface-2: #f4f4f5;
-    --border: #e4e4e7;
-    --text: #18181b;
-    --muted: #71717a;
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{
+    --bg:#0a0a0a;
+    --card:#141414;
+    --card-hover:#1a1a1a;
+    --border:#222;
+    --text:#f5f5f5;
+    --muted:#888;
+    --brand:#fbbf24;
+    --brand-dark:#f59e0b;
+    --green:#10b981;
   }
-  .dark {
-    --bg: #09090b;
-    --surface: #18181b;
-    --surface-2: #27272a;
-    --border: #27272a;
-    --text: #fafafa;
-    --muted: #a1a1aa;
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:env(safe-area-inset-bottom);
   }
-  body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; }
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+  .container{max-width:520px;margin:0 auto;padding:24px 16px 40px}
 
-  .surface   { background: var(--surface); }
-  .surface-2 { background: var(--surface-2); }
-  .bd        { border-color: var(--border); }
-  .muted     { color: var(--muted); }
-
-  .glass { backdrop-filter: blur(12px); background: color-mix(in srgb, var(--surface) 75%, transparent); }
-
-  .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-  .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
-
-  /* Card hover glow */
-  .card-glow::before {
-    content:''; position:absolute; inset:-1px; border-radius:1rem; padding:1px;
-    background: linear-gradient(135deg, transparent 40%, rgba(251,191,36,.5) 100%);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    opacity:0; transition:opacity .3s;
+  /* HEADER */
+  .header{text-align:center;margin-bottom:28px}
+  .logo{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:56px;height:56px;border-radius:16px;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#0a0a0a;font-weight:900;font-size:24px;margin-bottom:14px;
+    box-shadow:0 8px 24px rgba(251,191,36,.25);
   }
-  .card-glow:hover::before { opacity:1; }
+  .title{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+  .title span{color:var(--brand)}
+  .subtitle{font-size:13px;color:var(--muted);max-width:340px;margin:0 auto}
 
-  .skeleton {
-    position:relative; overflow:hidden; background: var(--surface-2);
+  /* SEARCH */
+  .search{margin-bottom:16px}
+  .search input{
+    width:100%;padding:14px 16px;
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    color:var(--text);font-size:15px;font-family:inherit;outline:none;
+    transition:border-color .2s;
   }
-  .skeleton::after {
-    content:''; position:absolute; inset:0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
-    transform: translateX(-100%);
-    animation: shimmer 1.5s infinite;
+  .search input:focus{border-color:var(--brand)}
+  .search input::placeholder{color:var(--muted)}
+
+  /* CATEGORY */
+  .categories{
+    display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;
+    margin-bottom:20px;scrollbar-width:none;
   }
+  .categories::-webkit-scrollbar{display:none}
+  .cat{
+    flex-shrink:0;padding:8px 14px;
+    background:var(--card);border:1px solid var(--border);border-radius:100px;
+    color:var(--muted);font-size:12px;font-weight:600;font-family:inherit;
+    cursor:pointer;white-space:nowrap;transition:all .2s;
+  }
+  .cat.active{background:var(--brand);border-color:var(--brand);color:#0a0a0a}
+
+  /* LIST */
+  .list{display:flex;flex-direction:column;gap:10px}
+  .item{
+    display:block;padding:16px;
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    text-decoration:none;color:inherit;transition:all .2s;
+  }
+  .item:active{background:var(--card-hover);border-color:var(--brand);transform:scale(.99)}
+  .item-top{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    gap:12px;margin-bottom:8px;
+  }
+  .item-title{font-size:14px;font-weight:700;line-height:1.35;color:var(--text);flex:1}
+  .item-badge{
+    flex-shrink:0;padding:3px 8px;
+    background:rgba(251,191,36,.12);color:var(--brand);
+    border-radius:6px;font-size:10px;font-weight:800;
+    letter-spacing:.03em;text-transform:uppercase;
+  }
+  .item-price{
+    font-size:16px;font-weight:800;color:var(--green);
+    letter-spacing:-.01em;margin-bottom:6px;
+  }
+  .item-meta{
+    display:flex;align-items:center;gap:8px;
+    font-size:11px;color:var(--muted);margin-bottom:12px;
+  }
+  .item-meta .star{color:var(--brand)}
+  .item-meta .dot{opacity:.4}
+  .item-bottom{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-top:12px;border-top:1px solid var(--border);
+  }
+  .item-cta{font-size:12px;font-weight:700;color:var(--brand)}
+  .item-arrow{font-size:14px;color:var(--brand);transition:transform .2s}
+  .item:active .item-arrow{transform:translate(2px,-2px)}
+
+  /* EMPTY */
+  .empty{text-align:center;padding:48px 16px;color:var(--muted);font-size:13px}
+
+  /* FOOTER */
+  .footer{
+    text-align:center;margin-top:32px;padding-top:24px;
+    border-top:1px solid var(--border);font-size:11px;color:var(--muted);
+  }
+  .footer a{color:var(--brand);text-decoration:none}
+
+  /* TOAST */
+  .toast{
+    position:fixed;bottom:24px;left:50%;
+    transform:translateX(-50%) translateY(100px);
+    background:#1a1a1a;border:1px solid var(--border);color:var(--text);
+    padding:12px 18px;border-radius:12px;
+    font-size:13px;font-weight:600;opacity:0;
+    transition:all .3s;pointer-events:none;z-index:50;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 </style>
 </head>
+<body>
 
-<body class="antialiased selection:bg-brand-500/30 selection:text-brand-700 min-h-screen flex flex-col">
+<div class="container">
 
-<!-- ============ HEADER ============ -->
-<header class="sticky top-0 z-40 glass border-b bd">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-    <a href="#" class="flex items-center gap-3 group">
-      <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center text-zinc-950 font-black text-lg shadow-lg shadow-brand-500/20 group-hover:scale-105 group-hover:rotate-3 transition-transform">
-        A
-      </div>
-      <div class="leading-tight">
-        <span class="text-base font-black tracking-tight">AURA<span class="text-brand-500">.</span>PICK</span>
-        <span class="block text-[10px] muted font-medium tracking-widest uppercase">Curated Shopee</span>
-      </div>
-    </a>
+  <header class="header">
+    <div class="logo">A</div>
+    <h1 class="title">ADOVAN</h1>
+    <p class="subtitle">Kurasi produk Shopee pilihan dengan harga promo terbaik.</p>
+  </header>
 
-    <div class="flex items-center gap-2">
-      <button type="button" onclick="toggleTheme()" title="Ganti tema"
-              class="w-9 h-9 rounded-xl surface-2 border bd flex items-center justify-center hover:bg-brand-500/10 hover:border-brand-500/40 transition-colors">
-        <i data-lucide="sun" class="w-4 h-4 theme-icon-sun hidden"></i>
-        <i data-lucide="moon" class="w-4 h-4 theme-icon-moon"></i>
-      </button>
-
-      <button type="button" onclick="copyCurrentURL()"
-              class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-brand-500 hover:bg-brand-400 text-zinc-950 shadow-lg shadow-brand-500/20 transition-all">
-        <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
-        <span>Bagikan</span>
-      </button>
-    </div>
+  <div class="search">
+    <input type="search" id="search" placeholder="Cari produk..." autocomplete="off" />
   </div>
-</header>
 
-<!-- ============ MAIN ============ -->
-<main class="flex-grow">
+  <div class="categories" id="categories"></div>
 
-  <!-- ============ HERO / BENTO ============ -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+  <div class="list" id="list"></div>
 
-      <!-- HERO UTAMA -->
-      <div class="lg:col-span-2 relative overflow-hidden rounded-3xl border bd surface p-8 sm:p-10">
-        <div class="absolute -top-24 -right-24 w-80 h-80 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-32 -left-20 w-72 h-72 bg-brand-400/10 rounded-full blur-3xl pointer-events-none"></div>
-
-        <div class="relative">
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full surface-2 border bd text-[11px] font-semibold mb-5">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span class="muted">Update Produk Hari Ini</span>
-          </div>
-
-          <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-[1.1] mb-4">
-            Racun <span class="bg-gradient-to-r from-brand-400 via-brand-500 to-brand-600 bg-clip-text text-transparent">Shopee</span><br/>
-            Pilihan Anak Muda.
-          </h1>
-
-          <p class="muted text-sm sm:text-base max-w-lg font-light leading-relaxed mb-6">
-            Kami kurasi produk dengan rating tertinggi, diskon paling gila, dan ulasan pembeli asli. Tinggal klik, checkout, happy.
-          </p>
-
-          <div class="flex flex-wrap items-center gap-3">
-            <a href="#katalog" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-500 hover:bg-brand-400 text-zinc-950 text-sm font-bold shadow-lg shadow-brand-500/20 transition-all">
-              <i data-lucide="sparkles" class="w-4 h-4"></i>
-              <span>Jelajahi Katalog</span>
-            </a>
-            <a href="https://shopee.co.id" target="_blank" rel="noopener noreferrer"
-               class="inline-flex items-center gap-2 px-5 py-3 rounded-xl surface-2 border bd hover:border-brand-500/40 text-sm font-semibold transition-all">
-              <i data-lucide="shopping-bag" class="w-4 h-4 text-brand-500"></i>
-              <span>Buka Shopee</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- STATS CARD -->
-      <div class="grid grid-rows-3 gap-4">
-        <div class="rounded-3xl border bd surface p-6 flex flex-col justify-between">
-          <div class="flex items-center justify-between">
-            <i data-lucide="package" class="w-5 h-5 text-brand-500"></i>
-            <span class="text-[10px] font-bold muted tracking-widest uppercase">Total</span>
-          </div>
-          <div>
-            <p id="statProducts" class="text-3xl font-black tracking-tight">0</p>
-            <p class="text-xs muted font-medium">Produk Terkurasi</p>
-          </div>
-        </div>
-
-        <div class="rounded-3xl border bd surface p-6 flex flex-col justify-between">
-          <div class="flex items-center justify-between">
-            <i data-lucide="star" class="w-5 h-5 text-brand-500"></i>
-            <span class="text-[10px] font-bold muted tracking-widest uppercase">Rating</span>
-          </div>
-          <div>
-            <p id="statRating" class="text-3xl font-black tracking-tight">0.0</p>
-            <p class="text-xs muted font-medium">Rata-rata Pembeli</p>
-          </div>
-        </div>
-
-        <div class="rounded-3xl border bd surface p-6 flex flex-col justify-between">
-          <div class="flex items-center justify-between">
-            <i data-lucide="layers" class="w-5 h-5 text-brand-500"></i>
-            <span class="text-[10px] font-bold muted tracking-widest uppercase">Kategori</span>
-          </div>
-          <div>
-            <p id="statCategories" class="text-3xl font-black tracking-tight">0</p>
-            <p class="text-xs muted font-medium">Kurasi Pilihan</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ TOOLBAR ============ -->
-  <section id="katalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <div class="rounded-2xl border bd surface p-4 sm:p-5 flex flex-col gap-4">
-
-      <!-- Search + Sort -->
-      <div class="flex flex-col sm:flex-row gap-3">
-        <div class="relative flex-1">
-          <i data-lucide="search" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 muted pointer-events-none"></i>
-          <input id="searchInput" type="text" placeholder="Cari produk, kategori, atau keyword..."
-                 class="w-full pl-11 pr-4 py-3 surface-2 border bd rounded-xl text-sm placeholder-zinc-500 focus:outline-none focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20 transition-all"/>
-        </div>
-
-        <div class="relative">
-          <i data-lucide="arrow-up-down" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 muted pointer-events-none"></i>
-          <select id="sortSelect"
-                  class="appearance-none w-full sm:w-52 pl-11 pr-10 py-3 surface-2 border bd rounded-xl text-sm font-medium focus:outline-none focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20 transition-all cursor-pointer">
-            <option value="default">Urutan Default</option>
-            <option value="rating">Rating Tertinggi</option>
-            <option value="title">Nama A-Z</option>
-          </select>
-          <i data-lucide="chevron-down" class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 muted pointer-events-none"></i>
-        </div>
-      </div>
-
-      <!-- Categories -->
-      <div id="categoryBar" class="flex flex-wrap items-center gap-2"></div>
-    </div>
-  </section>
-
-  <!-- ============ PRODUCT GRID ============ -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
-
-    <div id="noResults" class="hidden text-center py-20">
-      <div class="w-16 h-16 rounded-2xl surface-2 border bd flex items-center justify-center mx-auto mb-4">
-        <i data-lucide="package-search" class="w-7 h-7 muted"></i>
-      </div>
-      <h3 class="font-bold mb-1">Produk Tidak Ditemukan</h3>
-      <p class="text-xs muted">Coba kata kunci lain atau ubah filter kategori.</p>
-    </div>
-  </section>
-</main>
-
-<!-- ============ FOOTER ============ -->
-<footer class="border-t bd py-8 px-4 sm:px-6 lg:px-8 text-xs muted mt-auto">
-  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-    <p>&copy; <span id="year"></span> Aura Pick. Made with ☕ in Indonesia.</p>
-    <p class="flex items-center gap-2">
-      <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-500"></i>
-      Terhubung resmi dengan Shopee Affiliate Program
-    </p>
+  <div class="empty" id="empty" style="display:none">
+    Produk tidak ditemukan 🥲
   </div>
-</footer>
 
-<!-- ============ BACK TO TOP ============ -->
-<button id="backToTop" type="button"
-        class="fixed bottom-6 left-6 z-30 w-11 h-11 rounded-2xl bg-brand-500 hover:bg-brand-400 text-zinc-950 shadow-xl shadow-brand-500/30 flex items-center justify-center translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
-  <i data-lucide="arrow-up" class="w-5 h-5"></i>
-</button>
+  <div class="footer">
+    &copy; <span id="year"></span> Adovan · <a href="#" onclick="sharePage(event)">Bagikan halaman</a>
+  </div>
 
-<!-- ============ TOAST ============ -->
-<div id="toast"
-     class="fixed bottom-6 right-6 z-50 bg-zinc-900 text-zinc-100 text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 translate-y-20 opacity-0 pointer-events-none transition-all duration-300 border border-zinc-700">
-  <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
-  <span>Link berhasil disalin!</span>
 </div>
 
+<div class="toast" id="toast">Link disalin!</div>
+
 <script>
-/* ==================================================
-   1. DATA
-   ================================================== */
-const CATEGORIES = [
-  { id:'all',        label:'Semua',              icon:'layout-grid' },
-  { id:'elektronik', label:'Elektronik',         icon:'smartphone' },
-  { id:'fashion',    label:'Fashion',            icon:'shirt' },
-  { id:'lifestyle',  label:'Home & Lifestyle',   icon:'home' },
-];
+/* =========================================================
+   ⚙️ DATA PRODUK
+   ========================================================= */
 
 const PRODUCTS = [
-  { id:1, category:'elektronik', title:'TWS Wireless Bluetooth Earphone Noise Cancelling',  keywords:'tws earphone audio bluetooth wireless',  desc:'Suara jernih, bass nendang, baterai tahan seharian.',            badge:'Diskon Spesial', rating:4.9, sold:2800, discount:35, image:'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/7ptduFeZR4' },
-  { id:2, category:'fashion',    title:'Pashmina Premium Anti Kusut All Season',             keywords:'pashmina hijab fashion outfit anti kusut', desc:'Bahan premium jatuh, nyaman dipakai harian & formal.',            badge:'Terlaris',       rating:4.8, sold:5100, discount:25, image:'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/7VGnVhQGhQ' },
-  { id:3, category:'lifestyle',  title:'Lampu Meja Aesthetic Warm LED Dimmable',              keywords:'lampu meja aesthetic dekorasi kamar warm led', desc:'Bikin kamar instagramable, cahaya lembut, hemat listrik.',   badge:'Aesthetic',      rating:4.9, sold:1900, discount:40, image:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/1AmZzUnmj' },
-  { id:4, category:'elektronik', title:'Charger GaN 65W Fast Charging 3 Port',                keywords:'charger gan fast charging 65w type c usb', desc:'Cas HP + laptop + TWS sekaligus, tetap dingin.',                  badge:'Trending',       rating:4.9, sold:3400, discount:30, image:'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/8V9KhjDDMn' },
-  { id:5, category:'fashion',    title:'Sneakers Chunky Retro Unisex Korean Style',           keywords:'sneakers sepatu chunky retro korean style', desc:'Outfit naik level, empuk, dan anti slip.',                        badge:'Diskon 30%',     rating:4.8, sold:4200, discount:30, image:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/8fSku8kB9M' },
-  { id:6, category:'lifestyle',  title:'Tumbler Stainless 1L Tahan Panas 24 Jam',             keywords:'tumbler botol minum stainless tahan panas',  desc:'Anti bocor, tahan panas & dingin, cocok buat gym.',              badge:'Best Value',     rating:4.9, sold:6200, discount:20, image:'https://images.unsplash.com/photo-1517254798697-07539e209ea0?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/70KWv7PBke' },
-  { id:7, category:'elektronik', title:'Smart Lamp RGB WiFi Voice Control',                   keywords:'smart lamp rgb wifi alexa google home',       desc:'Kontrol via HP, 16 juta warna, sinkron sama musik.',            badge:'Promo',          rating:4.9, sold:1500, discount:45, image:'https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/AKaytGT8zV' },
-  { id:8, category:'fashion',    title:'Kemeja Oversize Linen Premium Korean Look',          keywords:'kemeja oversize linen korean fashion pria wanita', desc:'Adem, jatuh, cocok buat OOTD santai maupun formal.',         badge:'Favorit',        rating:4.7, sold:3800, discount:25, image:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/7ptduFeZR4' },
+  {
+    title: "Vesper Mini Portable Coffee Traveller Set",
+    desc: "Set lengkap alat kopi portable pour-over untuk coffee lover on-the-go.",
+    category: "lifestyle",
+    price: 256062,
+    rating: 4.9,
+    badge: "Coffee Lover",
+    url: "https://s.shopee.co.id/2Vs7vncITp"
+  },
+  {
+    title: "Acroder Action Camera 4K HD WiFi Mini",
+    desc: "Kamera aksi mini 4K, layar 1.54\" IPS putar 270°, night vision.",
+    category: "elektronik",
+    price: 457757,
+    rating: 4.8,
+    badge: "Vlog Ready",
+    url: "https://s.shopee.co.id/6AlQIcjD8g"
+  },
+  {
+    title: "Starlink Mini — Portable WiFi Satelit",
+    desc: "Internet satelit super cepat di mana saja. Cocok buat remote area.",
+    category: "elektronik",
+    price: 4674150,
+    rating: 5.0,
+    badge: "Premium",
+    url: "https://s.shopee.co.id/8V9L4yX8C9"
+  },
+  {
+    title: "Xiaomi Curved Gaming Monitor G34WQi 2026 — 34\" 180Hz",
+    desc: "WQHD 1500R curved, 180Hz, 95% DCI-P3, HDR400. Monitor gaming gila.",
+    category: "elektronik",
+    price: 4793060,
+    rating: 4.9,
+    badge: "Gaming",
+    url: "https://s.shopee.co.id/7AdxUYUBHB"
+  },
+  {
+    title: "Midea Air Cooler AC100-A 6.0L 55W",
+    desc: "Pendingin ruangan hemat listrik 55W dengan tangki 6 liter.",
+    category: "lifestyle",
+    price: 1231650,
+    rating: 4.8,
+    badge: "Hemat Listrik",
+    url: "https://s.shopee.co.id/4B0Lv4AGr7"
+  },
+  {
+    title: "NOD Maximo Smart Capsule Machine — All-in-One Drink Maker",
+    desc: "Mesin kopi kapsul otomatis multifungsi untuk minuman favoritmu.",
+    category: "lifestyle",
+    price: 2931650,
+    rating: 4.9,
+    badge: "All-in-One",
+    url: "https://s.shopee.co.id/1VzakDDi8w"
+  }
 ];
 
-const SOLD_FORMAT = (n) => n >= 1000 ? `${(n/1000).toFixed(1).replace('.0','')}rb` : `${n}`;
+/* =========================================================
+   🔧 KATEGORI
+   ========================================================= */
 
-/* ==================================================
-   2. STATE
-   ================================================== */
-const state = {
-  category: 'all',
-  query: '',
-  sort: 'default',
-  wishlist: new Set(JSON.parse(localStorage.getItem('aura_wishlist') || '[]')),
-};
+const CATEGORIES = [
+  { id: "all",        label: "Semua" },
+  { id: "elektronik", label: "Elektronik" },
+  { id: "lifestyle",  label: "Home & Living" }
+];
 
-/* ==================================================
-   3. HELPERS
-   ================================================== */
-const $  = (sel, root = document) => root.querySelector(sel);
-const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+/* =========================================================
+   🚀 LOGIC
+   ========================================================= */
 
-const escapeHTML = (str) => String(str).replace(/[&<>"']/g, c => ({
-  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-}[c]));
+const state = { category: "all", query: "" };
+const $ = (id) => document.getElementById(id);
+const escape = (s) => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const formatRupiah = (n) => "Rp" + n.toLocaleString("id-ID");
 
-/* ==================================================
-   4. THEME
-   ================================================== */
-function applyTheme(theme) {
-  document.documentElement.classList.toggle('dark', theme === 'dark');
-  localStorage.setItem('aura_theme', theme);
-  $$('.theme-icon-sun').forEach(el => el.classList.toggle('hidden', theme !== 'dark'));
-  $$('.theme-icon-moon').forEach(el => el.classList.toggle('hidden', theme === 'dark'));
-}
-function toggleTheme() {
-  const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
-  applyTheme(next);
-}
-
-/* ==================================================
-   5. RENDER — CATEGORIES
-   ================================================== */
 function renderCategories() {
-  const bar = $('#categoryBar');
-  bar.innerHTML = CATEGORIES.map(cat => `
-    <button type="button" data-category="${cat.id}"
-      class="category-btn inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold border transition-all
-             ${cat.id === state.category
-               ? 'bg-brand-500 border-brand-500 text-zinc-950 shadow-md shadow-brand-500/20'
-               : 'surface-2 bd hover:border-brand-500/40'}">
-      <i data-lucide="${cat.icon}" class="w-3.5 h-3.5"></i>
-      <span>${cat.label}</span>
-    </button>
-  `).join('');
-
-  bar.addEventListener('click', (e) => {
-    const btn = e.target.closest('.category-btn');
-    if (!btn) return;
-    state.category = btn.dataset.category;
-    renderCategories();
-    renderProducts();
-    lucide.createIcons();
-  });
+  $("categories").innerHTML = CATEGORIES.map(c =>
+    `<button class="cat ${c.id === state.category ? "active" : ""}" data-id="${c.id}">${c.label}</button>`
+  ).join("");
 }
 
-/* ==================================================
-   6. RENDER — PRODUCTS
-   ================================================== */
-function getVisibleProducts() {
-  let list = PRODUCTS.filter(p => {
-    const matchCat = state.category === 'all' || p.category === state.category;
-    const q = state.query.toLowerCase().trim();
-    const matchQuery = !q || (p.title + ' ' + p.keywords + ' ' + p.desc).toLowerCase().includes(q);
-    return matchCat && matchQuery;
+function renderList() {
+  const q = state.query.toLowerCase().trim();
+  const filtered = PRODUCTS.filter(p => {
+    const matchCat = state.category === "all" || p.category === state.category;
+    const haystack = (p.title + " " + (p.desc || "")).toLowerCase();
+    const matchQ = !q || haystack.includes(q);
+    return matchCat && matchQ;
   });
 
-  if (state.sort === 'rating') list = [...list].sort((a,b) => b.rating - a.rating);
-  if (state.sort === 'title')  list = [...list].sort((a,b) => a.title.localeCompare(b.title));
-
-  return list;
-}
-
-function productCard(p, index) {
-  const wished = state.wishlist.has(p.id);
-  return `
-    <article class="product-item card-glow group relative surface border bd rounded-2xl overflow-hidden flex flex-col animate-fadeUp"
-             style="animation-delay:${index * 40}ms"
-             data-id="${p.id}">
-
-      <div class="relative aspect-[4/5] overflow-hidden surface-2">
-        <img src="${p.image}" alt="${escapeHTML(p.title)}" loading="lazy"
-             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"/>
-
-        <!-- Gradient overlay -->
-        <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-
-        <!-- Discount badge -->
-        ${p.discount ? `
-          <span class="absolute top-3 left-3 px-2 py-1 rounded-lg bg-red-500 text-white text-[10px] font-black tracking-wide shadow-lg">
-            -${p.discount}%
-          </span>` : ''}
-
-        <!-- Wishlist -->
-        <button type="button" data-wish="${p.id}"
-          class="wishlist-btn absolute top-2.5 right-2.5 w-8 h-8 rounded-xl glass border bd flex items-center justify-center hover:scale-110 transition-transform">
-          <i data-lucide="heart" class="w-4 h-4 ${wished ? 'text-red-500 fill-red-500' : 'muted'}"></i>
-        </button>
-
-        <!-- Badge -->
-        <span class="absolute bottom-3 left-3 px-2 py-1 rounded-lg glass border bd text-[10px] font-bold text-brand-500">
-          ${p.badge}
-        </span>
-      </div>
-
-      <div class="p-4 flex-1 flex flex-col">
-        <div class="flex items-center gap-1.5 mb-2">
-          <span class="inline-flex items-center gap-1 text-[11px] font-bold">
-            <i data-lucide="star" class="w-3 h-3 text-brand-500 fill-brand-500"></i>
-            ${p.rating}
-          </span>
-          <span class="muted text-[11px]">•</span>
-          <span class="muted text-[11px] font-medium">${SOLD_FORMAT(p.sold)} terjual</span>
-        </div>
-
-        <h3 class="font-bold text-sm leading-snug line-clamp-2 mb-2 group-hover:text-brand-500 transition-colors">
-          ${escapeHTML(p.title)}
-        </h3>
-
-        <p class="muted text-xs line-clamp-2 font-light mb-4">
-          ${escapeHTML(p.desc)}
-        </p>
-
-        <a href="${p.url}" target="_blank" rel="noopener noreferrer"
-           class="mt-auto w-full py-2.5 px-4 bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all group-hover:shadow-lg group-hover:shadow-brand-500/30">
-          <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i>
-          <span>Beli di Shopee</span>
-          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
-        </a>
-      </div>
-    </article>
-  `;
-}
-
-function renderProducts() {
-  const grid = $('#productGrid');
-  const list = getVisibleProducts();
-
-  if (list.length === 0) {
-    grid.innerHTML = '';
-    $('#noResults').classList.remove('hidden');
+  if (filtered.length === 0) {
+    $("list").innerHTML = "";
+    $("empty").style.display = "block";
     return;
   }
-  $('#noResults').classList.add('hidden');
-  grid.innerHTML = list.map(productCard).join('');
-  lucide.createIcons();
+  $("empty").style.display = "none";
+
+  $("list").innerHTML = filtered.map(p => `
+    <a class="item" href="${p.url}" target="_blank" rel="noopener noreferrer">
+      <div class="item-top">
+        <div class="item-title">${escape(p.title)}</div>
+        ${p.badge ? `<span class="item-badge">${escape(p.badge)}</span>` : ""}
+      </div>
+      ${p.price ? `<div class="item-price">${formatRupiah(p.price)}</div>` : ""}
+      <div class="item-meta">
+        <span class="star">★</span>
+        <span>${p.rating}</span>
+        <span class="dot">•</span>
+        <span>Shopee Official</span>
+      </div>
+      <div class="item-bottom">
+        <span class="item-cta">Lihat di Shopee</span>
+        <span class="item-arrow">↗</span>
+      </div>
+    </a>
+  `).join("");
 }
 
-/* ==================================================
-   7. STATS
-   ================================================== */
-function animateNumber(el, target, decimals = 0, duration = 800) {
-  const start = performance.now();
-  const initial = parseFloat(el.textContent) || 0;
-  function frame(now) {
-    const t = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - t, 3);
-    el.textContent = (initial + (target - initial) * eased).toFixed(decimals);
-    if (t < 1) requestAnimationFrame(frame);
+function showToast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 1800);
+}
+
+function sharePage(e) {
+  e.preventDefault();
+  const url = location.href;
+  if (navigator.share) {
+    navigator.share({ title: document.title, url }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(url).then(() => showToast("Link disalin!"));
   }
-  requestAnimationFrame(frame);
 }
 
-function renderStats() {
-  const avgRating = (PRODUCTS.reduce((s, p) => s + p.rating, 0) / PRODUCTS.length);
-  animateNumber($('#statProducts'), PRODUCTS.length);
-  animateNumber($('#statRating'), avgRating, 1);
-  animateNumber($('#statCategories'), CATEGORIES.length - 1);
-}
-
-/* ==================================================
-   8. INTERACTIONS
-   ================================================== */
-function toggleWishlist(id) {
-  if (state.wishlist.has(id)) state.wishlist.delete(id);
-  else state.wishlist.add(id);
-  localStorage.setItem('aura_wishlist', JSON.stringify([...state.wishlist]));
-  renderProducts();
-}
-
-/* ==================================================
-   9. TOAST & SHARE
-   ================================================== */
-let toastTimer;
-function showToast(msg = 'Link berhasil disalin!') {
-  const toast = $('#toast');
-  toast.querySelector('span').textContent = msg;
-  toast.classList.remove('translate-y-20', 'opacity-0');
-  toast.classList.add('translate-y-0', 'opacity-100');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    toast.classList.remove('translate-y-0', 'opacity-100');
-    toast.classList.add('translate-y-20', 'opacity-0');
-  }, 2200);
-}
-
-async function copyCurrentURL() {
-  try {
-    await navigator.clipboard.writeText(location.href);
-    showToast('Link halaman disalin!');
-  } catch { showToast('Gagal menyalin 😢'); }
-}
-
-/* ==================================================
-   10. BACK TO TOP
-   ================================================== */
-function initBackToTop() {
-  const btn = $('#backToTop');
-  window.addEventListener('scroll', () => {
-    const show = window.scrollY > 500;
-    btn.classList.toggle('translate-y-20', !show);
-    btn.classList.toggle('opacity-0', !show);
-    btn.classList.toggle('pointer-events-none', !show);
-  }, { passive: true });
-
-  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-}
-
-/* ==================================================
-   11. INIT
-   ================================================== */
-document.addEventListener('DOMContentLoaded', () => {
-  // Theme
-  const saved = localStorage.getItem('aura_theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  applyTheme(saved || (prefersDark ? 'dark' : 'light'));
-
-  // Static
-  $('#year').textContent = new Date().getFullYear();
-
-  // Render
+$("categories").addEventListener("click", (e) => {
+  const btn = e.target.closest(".cat");
+  if (!btn) return;
+  state.category = btn.dataset.id;
   renderCategories();
-  renderProducts();
-  renderStats();
-
-  // Search (debounced)
-  let searchTimer;
-  $('#searchInput').addEventListener('input', (e) => {
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(() => {
-      state.query = e.target.value;
-      renderProducts();
-    }, 180);
-  });
-
-  // Sort
-  $('#sortSelect').addEventListener('change', (e) => {
-    state.sort = e.target.value;
-    renderProducts();
-  });
-
-  // Wishlist (delegate)
-  $('#productGrid').addEventListener('click', (e) => {
-    const btn = e.target.closest('.wishlist-btn');
-    if (!btn) return;
-    e.preventDefault();
-    toggleWishlist(Number(btn.dataset.wish));
-  });
-
-  initBackToTop();
-  lucide.createIcons();
+  renderList();
 });
+
+let searchTimer;
+$("search").addEventListener("input", (e) => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    state.query = e.target.value;
+    renderList();
+  }, 150);
+});
+
+$("year").textContent = new Date().getFullYear();
+renderCategories();
+renderList();
 </script>
 </body>
 </html>
