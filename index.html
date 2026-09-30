@@ -1,362 +1,563 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AURA.PICK | Katalog Rekomendasi Produk Shopee</title>
-  <meta name="description" content="Kumpulan racun Shopee pilihan: diskon menarik, rating tinggi, kualitas terjamin. Klik untuk langsung belanja di Shopee." />
-  <meta property="og:title" content="AURA.PICK | Curated Affiliate" />
-  <meta property="og:description" content="Rekomendasi produk Shopee pilihan & terverifikasi." />
-  <meta property="og:type" content="website" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AURA.PICK — Katalog Produk Shopee Pilihan</title>
+<meta name="description" content="Kurasi produk Shopee terbaik: diskon, rating tinggi, kualitas terjamin." />
 
-  <!-- Tailwind + Icons + Font -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-
-  <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #09090b; }
-    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
-  </style>
-</head>
-
-<body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-amber-500/30 selection:text-amber-200 min-h-screen flex flex-col">
-
-  <!-- HEADER -->
-  <header class="sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/60">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-2.5 group">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-zinc-950 font-extrabold text-lg shadow-lg shadow-amber-500/10 group-hover:scale-105 transition-transform">A</div>
-        <div>
-          <span class="text-base font-bold tracking-tight group-hover:text-amber-400 transition-colors">
-            AURA<span class="text-amber-400">.</span>PICK
-          </span>
-          <span class="block text-[10px] text-zinc-500 font-medium tracking-widest uppercase">Curated Affiliate</span>
-        </div>
-      </a>
-
-      <div class="flex items-center gap-3">
-        <a href="https://shopee.co.id" target="_blank" rel="noopener noreferrer"
-           class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:border-amber-500/50 transition-all">
-          <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-amber-400"></i>
-          <span>Shopee Official</span>
-        </a>
-        <button type="button" onclick="copyCurrentURL()"
-                class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-500/10 border border-amber-500/20 text-amber-400 hover:bg-amber-500/20 transition-all">
-          <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
-          <span>Bagikan</span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- MAIN -->
-  <main class="flex-grow">
-    <!-- HERO -->
-    <section class="relative pt-12 pb-8 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center">
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-400 mb-6">
-        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-        <span>Rekomendasi Produk Pilihan &amp; Terverifikasi</span>
-      </div>
-
-      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
-        Temukan Produk
-        <span class="bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500 bg-clip-text text-transparent">Kualitas Terbaik</span>
-        Dengan Harga Promo.
-      </h1>
-
-      <p class="text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto mb-8 font-light">
-        Kumpulan racun Shopee pilihan dengan diskon menarik, rating bintang 5, dan kualitas terjamin. Klik tombol untuk langsung belanja di Shopee.
-      </p>
-
-      <!-- SEARCH -->
-      <div class="max-w-xl mx-auto relative mb-8">
-        <i data-lucide="search" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500"></i>
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Cari nama produk, gadget, outfit..."
-          class="w-full pl-12 pr-4 py-3.5 bg-zinc-900/90 border border-zinc-800 rounded-2xl text-sm placeholder-zinc-500 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all shadow-xl"
-        />
-      </div>
-
-      <!-- CATEGORY FILTER -->
-      <div id="categoryBar" class="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto"></div>
-    </section>
-
-    <!-- PRODUCT GRID -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-
-      <!-- EMPTY STATE -->
-      <div id="noResults" class="hidden text-center py-16">
-        <i data-lucide="package-search" class="w-12 h-12 text-zinc-600 mx-auto mb-3"></i>
-        <h3 class="text-zinc-300 font-semibold mb-1">Produk Tidak Ditemukan</h3>
-        <p class="text-xs text-zinc-500">Coba kata kunci lain atau pilih kategori yang berbeda.</p>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="bg-zinc-950 border-t border-zinc-900 py-8 px-4 sm:px-6 lg:px-8 mt-12 text-xs text-zinc-500">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p>&copy; <span id="year"></span> Aura Pick. All rights reserved.</p>
-      <p class="text-zinc-600">Terhubung secara resmi dengan program Shopee Affiliate.</p>
-    </div>
-  </footer>
-
-  <!-- TOAST -->
-  <div id="toast"
-       class="fixed bottom-6 right-6 z-50 bg-zinc-900 border border-zinc-700 text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
-    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
-    <span>Link berhasil disalin ke papan klip!</span>
-  </div>
-
-  <script>
-    /* ============================
-       DATA
-       ============================ */
-    const CATEGORIES = [
-      { id: 'all',       label: 'Semua Produk' },
-      { id: 'elektronik',label: 'Elektronik & Gadget' },
-      { id: 'fashion',   label: 'Fashion & Outfit' },
-      { id: 'lifestyle', label: 'Home & Lifestyle' },
-    ];
-
-    const PRODUCTS = [
-      {
-        category: 'elektronik',
-        title: 'Produk Pilihan Paling Laris & Viral No. 1',
-        keywords: 'tws wireless bluetooth earphone noise cancelling',
-        desc: 'Kualitas terbaik, garansi resmi, serta penilaian bintang 5 dari para pembeli Shopee.',
-        badge: 'Diskon Spesial',
-        rating: 4.9,
-        image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=800&auto=format&fit=crop',
-        url: 'https://s.shopee.co.id/7ptduFeZR4',
-      },
-      {
-        category: 'fashion',
-        title: 'Produk Pilihan Paling Laris & Viral No. 2',
-        keywords: 'outfit fashion pashmina kemeja streetwear',
-        desc: 'Bahan premium, harga bersahabat, dan sangat cocok untuk dipakai harian.',
-        badge: 'Terlaris',
-        rating: 4.8,
-        image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop',
-        url: 'https://s.shopee.co.id/7VGnVhQGhQ',
-      },
-      {
-        category: 'lifestyle',
-        title: 'Produk Pilihan Paling Laris & Viral No. 3',
-        keywords: 'dekorasi rumah kamar aesthetic barang unik',
-        desc: 'Desain aesthetic & fungsional, membuat tampilan lebih rapi dan elegan.',
-        badge: 'Aesthetic',
-        rating: 4.9,
-        image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop',
-        url: 'https://s.shopee.co.id/1AmZzUnmj',
-      },
-      {
-        category: 'elektronik',
-        title: 'Produk Pilihan Paling Laris & Viral No. 4',
-        keywords: 'aksesoris gadget charger casing tempered glass',
-        desc: 'Produk dengan penjualan tertinggi di kelasnya dan banyak ulasan positif.',
-        badge: 'Trending',
-        rating: 4.9,
-        image: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800&auto=format&fit=crop',
-        url: 'https://s.shopee.co.id/8V9KhjDDMn',
-      },
-      {
-        category: 'fashion',
-        title: 'Produk Pilihan Paling Laris & Viral No. 5',
-        keywords: 'sepatu sneakers sandal fashion kulit',
-        desc: 'Pilihan favorit anak muda untuk melengkapi gaya sehari-hari.',
-        badge: 'Diskon 30%',
-        rating: 4.8,
-        image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop',
-        url: 'https://s.shopee.co.id/8fSku8kB9M',
-      },
-      {
-        category: 'lifestyle',
-        title: 'Produk Pilihan Paling Laris & Viral No. 6',
-        keywords: 'peralatan rumah tangga botol minum tumbler tempat penyimpanan',
-        desc: 'Sangat praktis, tahan lama, dan wajib dimiliki di rumah.',
-        badge: 'Best Value',
-        rating: 4.9,
-        image: 'https://images.unsplash.com/photo-1517254798697-07539e209ea0?q=80&w=800&auto=format&fit=crop',
-        url: 'https://s.shopee.co.id/70KWv7PBke',
-      },
-      {
-        category: 'elektronik',
-        title: 'Produk Pilihan Paling Laris & Viral No. 7',
-        keywords: 'smart home perlengkapan elektronik lampu pintar',
-        desc: 'Fitur lengkap dengan efisiensi daya tinggi dan ulasan sempurna.',
-        badge: 'Promo',
-        rating: 4.9,
-        image: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=800&auto=format&fit=crop',
-        url: 'https://s.shopee.co.id/AKaytGT8zV',
-      },
-    ];
-
-    /* ============================
-       STATE
-       ============================ */
-    let currentCategory = 'all';
-
-    /* ============================
-       RENDER: CATEGORY BUTTONS
-       ============================ */
-    function renderCategories() {
-      const bar = document.getElementById('categoryBar');
-      bar.innerHTML = CATEGORIES.map(cat => `
-        <button
-          type="button"
-          data-category="${cat.id}"
-          class="category-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all"
-        >${cat.label}</button>
-      `).join('');
-
-      bar.querySelectorAll('.category-btn').forEach(btn => {
-        btn.addEventListener('click', () => setCategory(btn.dataset.category));
-      });
-
-      updateCategoryButtons();
-    }
-
-    function updateCategoryButtons() {
-      document.querySelectorAll('.category-btn').forEach(btn => {
-        const active = btn.dataset.category === currentCategory;
-        btn.classList.toggle('bg-amber-500', active);
-        btn.classList.toggle('text-zinc-950', active);
-        btn.classList.toggle('bg-zinc-900', !active);
-        btn.classList.toggle('border', !active);
-        btn.classList.toggle('border-zinc-800', !active);
-        btn.classList.toggle('text-zinc-400', !active);
-        btn.classList.toggle('hover:text-white', !active);
-        btn.classList.toggle('hover:border-zinc-700', !active);
-      });
-    }
-
-    /* ============================
-       RENDER: PRODUCT CARDS
-       ============================ */
-    function renderProducts() {
-      const grid = document.getElementById('productGrid');
-
-      grid.innerHTML = PRODUCTS.map((p, i) => `
-        <article
-          class="product-item group bg-zinc-900/40 border border-zinc-800/80 rounded-2xl overflow-hidden hover:border-amber-500/40 transition-all duration-300 flex flex-col justify-between"
-          data-category="${p.category}"
-          data-title="${p.keywords.toLowerCase()}"
-        >
-          <div>
-            <div class="relative aspect-square overflow-hidden bg-zinc-900">
-              <img
-                src="${p.image}"
-                alt="${p.title}"
-                loading="lazy"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <span class="absolute top-3 left-3 px-2.5 py-1 bg-zinc-950/80 backdrop-blur-md border border-zinc-800 text-[10px] font-bold text-amber-400 rounded-lg">
-                ${p.badge}
-              </span>
-              <span class="absolute top-3 right-3 px-2 py-1 bg-zinc-950/80 backdrop-blur-md border border-zinc-800 text-[10px] font-semibold text-zinc-300 rounded-lg flex items-center gap-1">
-                <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i> ${p.rating}
-              </span>
-            </div>
-
-            <div class="p-5">
-              <span class="text-[10px] font-semibold uppercase tracking-wider text-amber-500/80 block mb-1">
-                Rekomendasi #${i + 1}
-              </span>
-              <h3 class="text-base font-bold group-hover:text-amber-400 transition-colors line-clamp-2 mb-2">
-                ${p.title}
-              </h3>
-              <p class="text-xs text-zinc-400 line-clamp-2 mb-4 font-light">${p.desc}</p>
-            </div>
-          </div>
-
-          <div class="p-5 pt-0">
-            <div class="flex items-baseline gap-2 mb-4">
-              <span class="text-lg font-extrabold">Cek Harga Promo</span>
-            </div>
-            <a href="${p.url}" target="_blank" rel="noopener noreferrer"
-               class="w-full py-3 px-4 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-amber-500/10 transition-all">
-              <span>Beli di Shopee</span>
-              <i data-lucide="external-link" class="w-4 h-4"></i>
-            </a>
-          </div>
-        </article>
-      `).join('');
-    }
-
-    /* ============================
-       FILTER
-       ============================ */
-    function setCategory(category) {
-      currentCategory = category;
-      updateCategoryButtons();
-      filterProducts();
-    }
-
-    function filterProducts() {
-      const query = document.getElementById('searchInput').value.toLowerCase().trim();
-      const products = document.querySelectorAll('.product-item');
-      let visible = 0;
-
-      products.forEach(el => {
-        const matchCat = currentCategory === 'all' || el.dataset.category === currentCategory;
-        const matchQuery = el.dataset.title.includes(query);
-        const show = matchCat && matchQuery;
-
-        el.classList.toggle('hidden', !show);
-        if (show) visible++;
-      });
-
-      document.getElementById('noResults').classList.toggle('hidden', visible !== 0);
-    }
-
-    /* ============================
-       TOAST & SHARE
-       ============================ */
-    let toastTimer;
-
-    function showToast() {
-      const toast = document.getElementById('toast');
-      toast.classList.remove('translate-y-20', 'opacity-0');
-      toast.classList.add('translate-y-0', 'opacity-100');
-
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        toast.classList.remove('translate-y-0', 'opacity-100');
-        toast.classList.add('translate-y-20', 'opacity-0');
-      }, 2500);
-    }
-
-    async function copyCurrentURL() {
-      try {
-        await navigator.clipboard.writeText(window.location.href);
-        showToast();
-      } catch (err) {
-        console.error('Gagal menyalin URL:', err);
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+        colors: {
+          brand: {
+            50:'#fffbeb',100:'#fef3c7',200:'#fde68a',300:'#fcd34d',
+            400:'#fbbf24',500:'#f59e0b',600:'#d97706',700:'#b45309',
+          }
+        },
+        keyframes: {
+          fadeUp: { '0%':{opacity:0,transform:'translateY(12px)'}, '100%':{opacity:1,transform:'translateY(0)'} },
+          shimmer: { '100%': { transform: 'translateX(100%)' } },
+        },
+        animation: {
+          fadeUp: 'fadeUp .5s ease-out both',
+          shimmer: 'shimmer 1.5s infinite',
+        }
       }
     }
+  }
+</script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-    /* ============================
-       INIT
-       ============================ */
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('year').textContent = new Date().getFullYear();
-      renderCategories();
+<style>
+  :root {
+    --bg: #fafaf9;
+    --surface: #ffffff;
+    --surface-2: #f4f4f5;
+    --border: #e4e4e7;
+    --text: #18181b;
+    --muted: #71717a;
+  }
+  .dark {
+    --bg: #09090b;
+    --surface: #18181b;
+    --surface-2: #27272a;
+    --border: #27272a;
+    --text: #fafafa;
+    --muted: #a1a1aa;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  .surface   { background: var(--surface); }
+  .surface-2 { background: var(--surface-2); }
+  .bd        { border-color: var(--border); }
+  .muted     { color: var(--muted); }
+
+  .glass { backdrop-filter: blur(12px); background: color-mix(in srgb, var(--surface) 75%, transparent); }
+
+  .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+
+  /* Card hover glow */
+  .card-glow::before {
+    content:''; position:absolute; inset:-1px; border-radius:1rem; padding:1px;
+    background: linear-gradient(135deg, transparent 40%, rgba(251,191,36,.5) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity:0; transition:opacity .3s;
+  }
+  .card-glow:hover::before { opacity:1; }
+
+  .skeleton {
+    position:relative; overflow:hidden; background: var(--surface-2);
+  }
+  .skeleton::after {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 1.5s infinite;
+  }
+</style>
+</head>
+
+<body class="antialiased selection:bg-brand-500/30 selection:text-brand-700 min-h-screen flex flex-col">
+
+<!-- ============ HEADER ============ -->
+<header class="sticky top-0 z-40 glass border-b bd">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center text-zinc-950 font-black text-lg shadow-lg shadow-brand-500/20 group-hover:scale-105 group-hover:rotate-3 transition-transform">
+        A
+      </div>
+      <div class="leading-tight">
+        <span class="text-base font-black tracking-tight">AURA<span class="text-brand-500">.</span>PICK</span>
+        <span class="block text-[10px] muted font-medium tracking-widest uppercase">Curated Shopee</span>
+      </div>
+    </a>
+
+    <div class="flex items-center gap-2">
+      <button type="button" onclick="toggleTheme()" title="Ganti tema"
+              class="w-9 h-9 rounded-xl surface-2 border bd flex items-center justify-center hover:bg-brand-500/10 hover:border-brand-500/40 transition-colors">
+        <i data-lucide="sun" class="w-4 h-4 theme-icon-sun hidden"></i>
+        <i data-lucide="moon" class="w-4 h-4 theme-icon-moon"></i>
+      </button>
+
+      <button type="button" onclick="copyCurrentURL()"
+              class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-brand-500 hover:bg-brand-400 text-zinc-950 shadow-lg shadow-brand-500/20 transition-all">
+        <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+        <span>Bagikan</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MAIN ============ -->
+<main class="flex-grow">
+
+  <!-- ============ HERO / BENTO ============ -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+      <!-- HERO UTAMA -->
+      <div class="lg:col-span-2 relative overflow-hidden rounded-3xl border bd surface p-8 sm:p-10">
+        <div class="absolute -top-24 -right-24 w-80 h-80 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-32 -left-20 w-72 h-72 bg-brand-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full surface-2 border bd text-[11px] font-semibold mb-5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="muted">Update Produk Hari Ini</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-[1.1] mb-4">
+            Racun <span class="bg-gradient-to-r from-brand-400 via-brand-500 to-brand-600 bg-clip-text text-transparent">Shopee</span><br/>
+            Pilihan Anak Muda.
+          </h1>
+
+          <p class="muted text-sm sm:text-base max-w-lg font-light leading-relaxed mb-6">
+            Kami kurasi produk dengan rating tertinggi, diskon paling gila, dan ulasan pembeli asli. Tinggal klik, checkout, happy.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <a href="#katalog" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-500 hover:bg-brand-400 text-zinc-950 text-sm font-bold shadow-lg shadow-brand-500/20 transition-all">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              <span>Jelajahi Katalog</span>
+            </a>
+            <a href="https://shopee.co.id" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-2 px-5 py-3 rounded-xl surface-2 border bd hover:border-brand-500/40 text-sm font-semibold transition-all">
+              <i data-lucide="shopping-bag" class="w-4 h-4 text-brand-500"></i>
+              <span>Buka Shopee</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS CARD -->
+      <div class="grid grid-rows-3 gap-4">
+        <div class="rounded-3xl border bd surface p-6 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <i data-lucide="package" class="w-5 h-5 text-brand-500"></i>
+            <span class="text-[10px] font-bold muted tracking-widest uppercase">Total</span>
+          </div>
+          <div>
+            <p id="statProducts" class="text-3xl font-black tracking-tight">0</p>
+            <p class="text-xs muted font-medium">Produk Terkurasi</p>
+          </div>
+        </div>
+
+        <div class="rounded-3xl border bd surface p-6 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <i data-lucide="star" class="w-5 h-5 text-brand-500"></i>
+            <span class="text-[10px] font-bold muted tracking-widest uppercase">Rating</span>
+          </div>
+          <div>
+            <p id="statRating" class="text-3xl font-black tracking-tight">0.0</p>
+            <p class="text-xs muted font-medium">Rata-rata Pembeli</p>
+          </div>
+        </div>
+
+        <div class="rounded-3xl border bd surface p-6 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <i data-lucide="layers" class="w-5 h-5 text-brand-500"></i>
+            <span class="text-[10px] font-bold muted tracking-widest uppercase">Kategori</span>
+          </div>
+          <div>
+            <p id="statCategories" class="text-3xl font-black tracking-tight">0</p>
+            <p class="text-xs muted font-medium">Kurasi Pilihan</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TOOLBAR ============ -->
+  <section id="katalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="rounded-2xl border bd surface p-4 sm:p-5 flex flex-col gap-4">
+
+      <!-- Search + Sort -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 muted pointer-events-none"></i>
+          <input id="searchInput" type="text" placeholder="Cari produk, kategori, atau keyword..."
+                 class="w-full pl-11 pr-4 py-3 surface-2 border bd rounded-xl text-sm placeholder-zinc-500 focus:outline-none focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20 transition-all"/>
+        </div>
+
+        <div class="relative">
+          <i data-lucide="arrow-up-down" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 muted pointer-events-none"></i>
+          <select id="sortSelect"
+                  class="appearance-none w-full sm:w-52 pl-11 pr-10 py-3 surface-2 border bd rounded-xl text-sm font-medium focus:outline-none focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20 transition-all cursor-pointer">
+            <option value="default">Urutan Default</option>
+            <option value="rating">Rating Tertinggi</option>
+            <option value="title">Nama A-Z</option>
+          </select>
+          <i data-lucide="chevron-down" class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 muted pointer-events-none"></i>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div id="categoryBar" class="flex flex-wrap items-center gap-2"></div>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCT GRID ============ -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+
+    <div id="noResults" class="hidden text-center py-20">
+      <div class="w-16 h-16 rounded-2xl surface-2 border bd flex items-center justify-center mx-auto mb-4">
+        <i data-lucide="package-search" class="w-7 h-7 muted"></i>
+      </div>
+      <h3 class="font-bold mb-1">Produk Tidak Ditemukan</h3>
+      <p class="text-xs muted">Coba kata kunci lain atau ubah filter kategori.</p>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t bd py-8 px-4 sm:px-6 lg:px-8 text-xs muted mt-auto">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+    <p>&copy; <span id="year"></span> Aura Pick. Made with ☕ in Indonesia.</p>
+    <p class="flex items-center gap-2">
+      <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-500"></i>
+      Terhubung resmi dengan Shopee Affiliate Program
+    </p>
+  </div>
+</footer>
+
+<!-- ============ BACK TO TOP ============ -->
+<button id="backToTop" type="button"
+        class="fixed bottom-6 left-6 z-30 w-11 h-11 rounded-2xl bg-brand-500 hover:bg-brand-400 text-zinc-950 shadow-xl shadow-brand-500/30 flex items-center justify-center translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
+  <i data-lucide="arrow-up" class="w-5 h-5"></i>
+</button>
+
+<!-- ============ TOAST ============ -->
+<div id="toast"
+     class="fixed bottom-6 right-6 z-50 bg-zinc-900 text-zinc-100 text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 translate-y-20 opacity-0 pointer-events-none transition-all duration-300 border border-zinc-700">
+  <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+  <span>Link berhasil disalin!</span>
+</div>
+
+<script>
+/* ==================================================
+   1. DATA
+   ================================================== */
+const CATEGORIES = [
+  { id:'all',        label:'Semua',              icon:'layout-grid' },
+  { id:'elektronik', label:'Elektronik',         icon:'smartphone' },
+  { id:'fashion',    label:'Fashion',            icon:'shirt' },
+  { id:'lifestyle',  label:'Home & Lifestyle',   icon:'home' },
+];
+
+const PRODUCTS = [
+  { id:1, category:'elektronik', title:'TWS Wireless Bluetooth Earphone Noise Cancelling',  keywords:'tws earphone audio bluetooth wireless',  desc:'Suara jernih, bass nendang, baterai tahan seharian.',            badge:'Diskon Spesial', rating:4.9, sold:2800, discount:35, image:'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/7ptduFeZR4' },
+  { id:2, category:'fashion',    title:'Pashmina Premium Anti Kusut All Season',             keywords:'pashmina hijab fashion outfit anti kusut', desc:'Bahan premium jatuh, nyaman dipakai harian & formal.',            badge:'Terlaris',       rating:4.8, sold:5100, discount:25, image:'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/7VGnVhQGhQ' },
+  { id:3, category:'lifestyle',  title:'Lampu Meja Aesthetic Warm LED Dimmable',              keywords:'lampu meja aesthetic dekorasi kamar warm led', desc:'Bikin kamar instagramable, cahaya lembut, hemat listrik.',   badge:'Aesthetic',      rating:4.9, sold:1900, discount:40, image:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/1AmZzUnmj' },
+  { id:4, category:'elektronik', title:'Charger GaN 65W Fast Charging 3 Port',                keywords:'charger gan fast charging 65w type c usb', desc:'Cas HP + laptop + TWS sekaligus, tetap dingin.',                  badge:'Trending',       rating:4.9, sold:3400, discount:30, image:'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/8V9KhjDDMn' },
+  { id:5, category:'fashion',    title:'Sneakers Chunky Retro Unisex Korean Style',           keywords:'sneakers sepatu chunky retro korean style', desc:'Outfit naik level, empuk, dan anti slip.',                        badge:'Diskon 30%',     rating:4.8, sold:4200, discount:30, image:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/8fSku8kB9M' },
+  { id:6, category:'lifestyle',  title:'Tumbler Stainless 1L Tahan Panas 24 Jam',             keywords:'tumbler botol minum stainless tahan panas',  desc:'Anti bocor, tahan panas & dingin, cocok buat gym.',              badge:'Best Value',     rating:4.9, sold:6200, discount:20, image:'https://images.unsplash.com/photo-1517254798697-07539e209ea0?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/70KWv7PBke' },
+  { id:7, category:'elektronik', title:'Smart Lamp RGB WiFi Voice Control',                   keywords:'smart lamp rgb wifi alexa google home',       desc:'Kontrol via HP, 16 juta warna, sinkron sama musik.',            badge:'Promo',          rating:4.9, sold:1500, discount:45, image:'https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/AKaytGT8zV' },
+  { id:8, category:'fashion',    title:'Kemeja Oversize Linen Premium Korean Look',          keywords:'kemeja oversize linen korean fashion pria wanita', desc:'Adem, jatuh, cocok buat OOTD santai maupun formal.',         badge:'Favorit',        rating:4.7, sold:3800, discount:25, image:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=800&auto=format&fit=crop', url:'https://s.shopee.co.id/7ptduFeZR4' },
+];
+
+const SOLD_FORMAT = (n) => n >= 1000 ? `${(n/1000).toFixed(1).replace('.0','')}rb` : `${n}`;
+
+/* ==================================================
+   2. STATE
+   ================================================== */
+const state = {
+  category: 'all',
+  query: '',
+  sort: 'default',
+  wishlist: new Set(JSON.parse(localStorage.getItem('aura_wishlist') || '[]')),
+};
+
+/* ==================================================
+   3. HELPERS
+   ================================================== */
+const $  = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+const escapeHTML = (str) => String(str).replace(/[&<>"']/g, c => ({
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+}[c]));
+
+/* ==================================================
+   4. THEME
+   ================================================== */
+function applyTheme(theme) {
+  document.documentElement.classList.toggle('dark', theme === 'dark');
+  localStorage.setItem('aura_theme', theme);
+  $$('.theme-icon-sun').forEach(el => el.classList.toggle('hidden', theme !== 'dark'));
+  $$('.theme-icon-moon').forEach(el => el.classList.toggle('hidden', theme === 'dark'));
+}
+function toggleTheme() {
+  const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+  applyTheme(next);
+}
+
+/* ==================================================
+   5. RENDER — CATEGORIES
+   ================================================== */
+function renderCategories() {
+  const bar = $('#categoryBar');
+  bar.innerHTML = CATEGORIES.map(cat => `
+    <button type="button" data-category="${cat.id}"
+      class="category-btn inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold border transition-all
+             ${cat.id === state.category
+               ? 'bg-brand-500 border-brand-500 text-zinc-950 shadow-md shadow-brand-500/20'
+               : 'surface-2 bd hover:border-brand-500/40'}">
+      <i data-lucide="${cat.icon}" class="w-3.5 h-3.5"></i>
+      <span>${cat.label}</span>
+    </button>
+  `).join('');
+
+  bar.addEventListener('click', (e) => {
+    const btn = e.target.closest('.category-btn');
+    if (!btn) return;
+    state.category = btn.dataset.category;
+    renderCategories();
+    renderProducts();
+    lucide.createIcons();
+  });
+}
+
+/* ==================================================
+   6. RENDER — PRODUCTS
+   ================================================== */
+function getVisibleProducts() {
+  let list = PRODUCTS.filter(p => {
+    const matchCat = state.category === 'all' || p.category === state.category;
+    const q = state.query.toLowerCase().trim();
+    const matchQuery = !q || (p.title + ' ' + p.keywords + ' ' + p.desc).toLowerCase().includes(q);
+    return matchCat && matchQuery;
+  });
+
+  if (state.sort === 'rating') list = [...list].sort((a,b) => b.rating - a.rating);
+  if (state.sort === 'title')  list = [...list].sort((a,b) => a.title.localeCompare(b.title));
+
+  return list;
+}
+
+function productCard(p, index) {
+  const wished = state.wishlist.has(p.id);
+  return `
+    <article class="product-item card-glow group relative surface border bd rounded-2xl overflow-hidden flex flex-col animate-fadeUp"
+             style="animation-delay:${index * 40}ms"
+             data-id="${p.id}">
+
+      <div class="relative aspect-[4/5] overflow-hidden surface-2">
+        <img src="${p.image}" alt="${escapeHTML(p.title)}" loading="lazy"
+             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"/>
+
+        <!-- Gradient overlay -->
+        <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+        <!-- Discount badge -->
+        ${p.discount ? `
+          <span class="absolute top-3 left-3 px-2 py-1 rounded-lg bg-red-500 text-white text-[10px] font-black tracking-wide shadow-lg">
+            -${p.discount}%
+          </span>` : ''}
+
+        <!-- Wishlist -->
+        <button type="button" data-wish="${p.id}"
+          class="wishlist-btn absolute top-2.5 right-2.5 w-8 h-8 rounded-xl glass border bd flex items-center justify-center hover:scale-110 transition-transform">
+          <i data-lucide="heart" class="w-4 h-4 ${wished ? 'text-red-500 fill-red-500' : 'muted'}"></i>
+        </button>
+
+        <!-- Badge -->
+        <span class="absolute bottom-3 left-3 px-2 py-1 rounded-lg glass border bd text-[10px] font-bold text-brand-500">
+          ${p.badge}
+        </span>
+      </div>
+
+      <div class="p-4 flex-1 flex flex-col">
+        <div class="flex items-center gap-1.5 mb-2">
+          <span class="inline-flex items-center gap-1 text-[11px] font-bold">
+            <i data-lucide="star" class="w-3 h-3 text-brand-500 fill-brand-500"></i>
+            ${p.rating}
+          </span>
+          <span class="muted text-[11px]">•</span>
+          <span class="muted text-[11px] font-medium">${SOLD_FORMAT(p.sold)} terjual</span>
+        </div>
+
+        <h3 class="font-bold text-sm leading-snug line-clamp-2 mb-2 group-hover:text-brand-500 transition-colors">
+          ${escapeHTML(p.title)}
+        </h3>
+
+        <p class="muted text-xs line-clamp-2 font-light mb-4">
+          ${escapeHTML(p.desc)}
+        </p>
+
+        <a href="${p.url}" target="_blank" rel="noopener noreferrer"
+           class="mt-auto w-full py-2.5 px-4 bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all group-hover:shadow-lg group-hover:shadow-brand-500/30">
+          <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i>
+          <span>Beli di Shopee</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+        </a>
+      </div>
+    </article>
+  `;
+}
+
+function renderProducts() {
+  const grid = $('#productGrid');
+  const list = getVisibleProducts();
+
+  if (list.length === 0) {
+    grid.innerHTML = '';
+    $('#noResults').classList.remove('hidden');
+    return;
+  }
+  $('#noResults').classList.add('hidden');
+  grid.innerHTML = list.map(productCard).join('');
+  lucide.createIcons();
+}
+
+/* ==================================================
+   7. STATS
+   ================================================== */
+function animateNumber(el, target, decimals = 0, duration = 800) {
+  const start = performance.now();
+  const initial = parseFloat(el.textContent) || 0;
+  function frame(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = (initial + (target - initial) * eased).toFixed(decimals);
+    if (t < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function renderStats() {
+  const avgRating = (PRODUCTS.reduce((s, p) => s + p.rating, 0) / PRODUCTS.length);
+  animateNumber($('#statProducts'), PRODUCTS.length);
+  animateNumber($('#statRating'), avgRating, 1);
+  animateNumber($('#statCategories'), CATEGORIES.length - 1);
+}
+
+/* ==================================================
+   8. INTERACTIONS
+   ================================================== */
+function toggleWishlist(id) {
+  if (state.wishlist.has(id)) state.wishlist.delete(id);
+  else state.wishlist.add(id);
+  localStorage.setItem('aura_wishlist', JSON.stringify([...state.wishlist]));
+  renderProducts();
+}
+
+/* ==================================================
+   9. TOAST & SHARE
+   ================================================== */
+let toastTimer;
+function showToast(msg = 'Link berhasil disalin!') {
+  const toast = $('#toast');
+  toast.querySelector('span').textContent = msg;
+  toast.classList.remove('translate-y-20', 'opacity-0');
+  toast.classList.add('translate-y-0', 'opacity-100');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('translate-y-0', 'opacity-100');
+    toast.classList.add('translate-y-20', 'opacity-0');
+  }, 2200);
+}
+
+async function copyCurrentURL() {
+  try {
+    await navigator.clipboard.writeText(location.href);
+    showToast('Link halaman disalin!');
+  } catch { showToast('Gagal menyalin 😢'); }
+}
+
+/* ==================================================
+   10. BACK TO TOP
+   ================================================== */
+function initBackToTop() {
+  const btn = $('#backToTop');
+  window.addEventListener('scroll', () => {
+    const show = window.scrollY > 500;
+    btn.classList.toggle('translate-y-20', !show);
+    btn.classList.toggle('opacity-0', !show);
+    btn.classList.toggle('pointer-events-none', !show);
+  }, { passive: true });
+
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+/* ==================================================
+   11. INIT
+   ================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  // Theme
+  const saved = localStorage.getItem('aura_theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+
+  // Static
+  $('#year').textContent = new Date().getFullYear();
+
+  // Render
+  renderCategories();
+  renderProducts();
+  renderStats();
+
+  // Search (debounced)
+  let searchTimer;
+  $('#searchInput').addEventListener('input', (e) => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      state.query = e.target.value;
       renderProducts();
-      document.getElementById('searchInput').addEventListener('input', filterProducts);
-      lucide.createIcons();
-    });
-  </script>
+    }, 180);
+  });
+
+  // Sort
+  $('#sortSelect').addEventListener('change', (e) => {
+    state.sort = e.target.value;
+    renderProducts();
+  });
+
+  // Wishlist (delegate)
+  $('#productGrid').addEventListener('click', (e) => {
+    const btn = e.target.closest('.wishlist-btn');
+    if (!btn) return;
+    e.preventDefault();
+    toggleWishlist(Number(btn.dataset.wish));
+  });
+
+  initBackToTop();
+  lucide.createIcons();
+});
+</script>
 </body>
 </html>
